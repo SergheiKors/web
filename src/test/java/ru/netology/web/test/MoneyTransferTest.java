@@ -28,6 +28,15 @@ public class MoneyTransferTest {
     @BeforeEach
 
     void setup() {
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        Map<String, Object> prefs = new HashMap<String, Object>();
+        prefs.put("credentials_enable_service", false);
+        prefs.put("password_manager_enabled", false);
+        options.setExperimentalOption("prefs", prefs);
+        Configuration.browserCapabilities = options;
+
         var loginPage = open("http://localhost:9999", LoginPage.class);
         var authInfo = getAuthInfo();
         var verificationPage = loginPage.validLogin(authInfo);
@@ -38,14 +47,6 @@ public class MoneyTransferTest {
         firstCardBalance = dashboardPage.getCardBalance(getMaskedNumber(firstCardInfo.getCardNumber()));
         secondCardBalance = dashboardPage.getCardBalance(getMaskedNumber(secondCardInfo.getCardNumber()));
 
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        Map<String, Object> prefs = new HashMap<String, Object>();
-        prefs.put("credentials_enable_service", false);
-        prefs.put("password_manager_enabled", false);
-        options.setExperimentalOption("prefs", prefs);
-        Configuration.browserCapabilities = options;
     }
 
     @Test
